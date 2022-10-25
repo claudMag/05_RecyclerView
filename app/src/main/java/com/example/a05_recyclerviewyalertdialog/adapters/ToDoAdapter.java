@@ -1,11 +1,13 @@
 package com.example.a05_recyclerviewyalertdialog.adapters;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -74,6 +76,30 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoVH> {
             }
         });
 
+        holder.btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirmaCancelar("Estás seguro de cancelar el elemento?", holder.getAdapterPosition()).show();
+            }
+        });
+
+    }
+
+    private AlertDialog confirmaCancelar(String s, int posicion) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(s);
+        builder.setCancelable(false);
+        builder.setNegativeButton("NO", null);
+        builder.setPositiveButton("SI", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                objects.remove(posicion);
+                notifyItemRemoved(posicion); //mas eficiente que notifydatasetchanged porque este ultimo lo eliminatodo
+                //ToDoAdapter.this.notifyDataSetChanged(); posso scriverlo anche cosi
+            }
+        });
+
+        return builder.create();
     }
 
     @Override
@@ -112,6 +138,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoVH> {
 
         TextView lblTitulo, lblContenido, lblFecha;
         ImageButton btnCompletado;
+        ImageButton btnCancelar;
 
         public ToDoVH(@NonNull View itemView) {
             //constructor que recibe una vista, el layout del view model.
@@ -120,6 +147,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoVH> {
             lblContenido = itemView.findViewById(R.id.lblContenidoToDoModelView);
             lblFecha = itemView.findViewById(R.id.lblFechaToDoModelView);
             btnCompletado = itemView.findViewById(R.id.btnCompletadoToDoModelView);
+            btnCancelar = itemView.findViewById(R.id.btnCancelarToDoModelView);
         }
     }
 }

@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new ToDoAdapter(toDoList, R.layout.todo_view_model, MainActivity.this);
         binding.contentMain.contenedor.setAdapter(adapter);
-        //layoutManager = new LinearLayoutManager(MainActivity.this);
-        layoutManager = new GridLayoutManager(MainActivity.this, 2);
+        layoutManager = new LinearLayoutManager(MainActivity.this);
+        //layoutManager = new GridLayoutManager(MainActivity.this, 2);
         binding.contentMain.contenedor.setLayoutManager(layoutManager);
 
         binding.fab.setOnClickListener(new View.OnClickListener() {
