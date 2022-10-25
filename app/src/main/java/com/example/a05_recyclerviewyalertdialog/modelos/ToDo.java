@@ -1,8 +1,9 @@
 package com.example.a05_recyclerviewyalertdialog.modelos;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class ToDo {
+public class ToDo implements Serializable {
     private String titulo;
     private String contenido;
     private boolean completado;
