@@ -50,6 +50,7 @@ public class EditToDoActivity extends AppCompatActivity {
                     bundle.putSerializable(Constantes.TODO, todoActualizado);
                     bundle.putInt(Constantes.POSICION, posicion);
                     intent.putExtras(bundle);
+                    setResult(RESULT_OK, intent);
                     finish();
                 } else {
                     Toast.makeText(EditToDoActivity.this, "Faltan datos", Toast.LENGTH_SHORT).show();

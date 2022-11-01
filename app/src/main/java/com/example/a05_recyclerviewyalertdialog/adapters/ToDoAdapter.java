@@ -1,10 +1,12 @@
 package com.example.a05_recyclerviewyalertdialog.adapters;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +18,10 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.a05_recyclerviewyalertdialog.EditToDoActivity;
 import com.example.a05_recyclerviewyalertdialog.MainActivity;
 import com.example.a05_recyclerviewyalertdialog.R;
+import com.example.a05_recyclerviewyalertdialog.configs.Constantes;
 import com.example.a05_recyclerviewyalertdialog.modelos.ToDo;
 
 import java.util.List;
@@ -26,18 +30,20 @@ import java.util.List;
 //vh es de view holder
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoVH> {
 
+    //ToDoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     //la unica clase que se relaciona con la pantalla --> activity
 
     private List<ToDo> objects;
-    private int resource;
+    private int resource; //fila
     private Context context;
-    private ActivityResultLauncher<Intent> editTodoLauncher;
+    private ActivityResultLauncher <Intent> editLauncher;
 
 
-    public ToDoAdapter(List<ToDo> objects, int resource, Context context) {
+    public ToDoAdapter(List<ToDo> objects, int resource, Context context, ActivityResultLauncher<Intent> launcher) {
         this.objects = objects;
         this.resource = resource;
         this.context = context;
+        this.editLauncher = launcher;
     }
 
     /**
@@ -52,6 +58,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoVH> {
         View todoView = LayoutInflater.from(context).inflate(resource, null);
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         todoView.setLayoutParams(lp);
+
         return new ToDoVH(todoView);
     }
 
@@ -85,6 +92,18 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoVH> {
                 confirmaCancelar("Estás seguro de cancelar el elemento?", holder.getAdapterPosition()).show();
             }
         });
+
+       holder.itemView.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Intent intent = new Intent(context, EditToDoActivity.class);
+               Bundle bundle = new Bundle();
+               bundle.putSerializable(Constantes.TODO, todo);
+               bundle.putInt(Constantes.POSICION, holder.getAdapterPosition());
+               intent.putExtras(bundle);
+               editLauncher.launch(intent);
+           }
+       });
 
     }
 
@@ -151,6 +170,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoVH> {
             lblFecha = itemView.findViewById(R.id.lblFechaToDoModelView);
             btnCompletado = itemView.findViewById(R.id.btnCompletadoToDoModelView);
             btnCancelar = itemView.findViewById(R.id.btnCancelarToDoModelView);
+
         }
     }
 }
