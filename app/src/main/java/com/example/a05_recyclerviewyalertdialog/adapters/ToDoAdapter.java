@@ -36,14 +36,12 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoVH> {
     private List<ToDo> objects;
     private int resource; //fila
     private Context context;
-    private ActivityResultLauncher <Intent> editLauncher;
 
 
-    public ToDoAdapter(List<ToDo> objects, int resource, Context context, ActivityResultLauncher<Intent> launcher) {
+    public ToDoAdapter(List<ToDo> objects, int resource, Context context) {
         this.objects = objects;
         this.resource = resource;
         this.context = context;
-        this.editLauncher = launcher;
     }
 
     /**
@@ -101,7 +99,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoVH> {
                bundle.putSerializable(Constantes.TODO, todo);
                bundle.putInt(Constantes.POSICION, holder.getAdapterPosition());
                intent.putExtras(bundle);
-               editLauncher.launch(intent);
+               MainActivity.editTodoLauncher.launch(intent);
            }
        });
 

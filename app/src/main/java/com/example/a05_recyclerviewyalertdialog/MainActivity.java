@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<ToDo> toDoList;
     private ToDoAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private ActivityResultLauncher<Intent> editTodoLauncher;
+    public static ActivityResultLauncher<Intent> editTodoLauncher;
 
 
 
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         // crearToDos();
 
 
-        adapter = new ToDoAdapter(toDoList, R.layout.todo_view_model, MainActivity.this, editTodoLauncher);
+        adapter = new ToDoAdapter(toDoList, R.layout.todo_view_model, MainActivity.this);
         binding.contentMain.contenedor.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(MainActivity.this);
         //layoutManager = new GridLayoutManager(MainActivity.this, 2);
